@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Forecast() {
+export default function Forecast(props) {
   return (
     <>
       <div className="flex flex-row items-center mt-6">
-        <p className="text-white font-medium uppercase">hourly Forecast</p>
+        <p className="text-white font-medium uppercase">{props.title}</p>
       </div>
       <hr className="my-2" />
       <div className="flex flex-row items-center justify-between text-white ">
