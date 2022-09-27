@@ -62,14 +62,37 @@ function App() {
   const [sys, setSys] = useState(data.sys);
   const [datetime, setDateTime] = useState(data.dt);
   const [weather, setWeather] = useState(data.weather);
+  const [loading, setloading] = useState(false);
+  const [list, setlist] = useState(false);
+  const [dailyweatherlist, setdailyweatherlist] = useState(false);
 
 
   const fetchhourlydata = async() =>
   {
-    let url = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coord.lat}&lon=${coord.lon}&cnt=${5}&appid=${API_KEY}`;
+    let url = `https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=${coord.lat}&lon=${coord.lon}&cnt=${5}&appid=${API_KEY}`;
     let data = await fetch(url);
     let parsedData = await data.json()
-    console.log(parsedData)
+    setlist(parsedData.list)
+    
+    
+    
+  }
+
+  const fetchdailydata = async() =>
+  {
+    let url = `https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=${coord.lat}&lon=${coord.lon}&cnt=${35}&appid=${API_KEY}`;
+    let data = await fetch(url);
+    let parsedData = await data.json()
+    for (let i = 0; i < 36;i++) {
+      setdailyweatherlist(parsedData.list)
+      i=i+6;
+    }
+
+    console.log(dailyweatherlist);
+
+
+    
+    
   }
   // console.log(todaysweather);
   const updatenews = async () => {
@@ -83,8 +106,9 @@ function App() {
     setSys(parsedData.sys);
     setDateTime(parsedData.dt);
     setWeather(parsedData.weather);
-
-    fetchhourlydata();
+    await fetchhourlydata();
+    await fetchdailydata();
+    setloading(true);
 
     // document.title = `${capitalizedFirsLetter(props.category)} - NewsMania`;
   };
@@ -92,7 +116,7 @@ function App() {
   const formatdate = (selection, time) => {
     let d = new Date(time * 1000);
 
-    if (selection === "sunrise" || selection === "sunset") {
+    if (selection === "sunrise" || selection === "sunset" || selection === "hourly") {
       return dateFormat(d, "h:MM: TT");
     } else {
       return dateFormat(d, "dddd, mmmm dS, yyyy, h:MM:ss TT");
@@ -104,26 +128,28 @@ function App() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400">
-      <TopButtons updatenews={updatenews} setCityTitle={setCityTitle}  />
-      <Inputs updatenews={updatenews} setCityTitle={setCityTitle} />
-      <TimeAndLocation
-        time={formatdate("time", datetime)}
-        countrytitle={sys.country}
-        citytitle={citytitle}
-        coord={coord}
-      />
-      <TemperatureAndDetails
-        description={weather[0].description}
-        iconurl={`http://www.openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
-        sunrise={formatdate("sunrise", sys.sunrise)}
-        sunset={formatdate("sunset", sys.sunset)}
-        windspeed={windspeed}
-        todaysweather={todaysweather}
-      />
-      <Forecast title="hourly forecast " />
-      <Forecast title="daily forecast " />
-    </div>
+    loading && (
+      <div className="mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400">
+        <TopButtons updatenews={updatenews} setCityTitle={setCityTitle} />
+        <Inputs updatenews={updatenews} setCityTitle={setCityTitle} />
+        <TimeAndLocation
+          time={formatdate("time", datetime)}
+          countrytitle={sys.country}
+          citytitle={citytitle}
+          coord={coord}
+        />
+        <TemperatureAndDetails
+          description={weather[0].description}
+          iconurl={`http://www.openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
+          sunrise={formatdate("sunrise", sys.sunrise)}
+          sunset={formatdate("sunset", sys.sunset)}
+          windspeed={windspeed}
+          todaysweather={todaysweather}
+        />
+        <Forecast formatdate = {formatdate} list = {list} title="hourly forecast " />
+        <Forecast formatdate = {formatdate} list = {list} title="daily forecast " />
+      </div>
+    )
   );
 }
 
