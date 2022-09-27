@@ -6,9 +6,6 @@ export default function TimeAndLocation(props) {
     <div className="flex justify-center my-6 items-center">
       <p className="text-white text-xl font-extralight">
         {props.time}
-
-        {/* {props.coord.lat}
-        {props.coord.lon} */}
       </p>
       
     </div>
