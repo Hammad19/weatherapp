@@ -1,28 +1,35 @@
 import React from 'react'
 
-export default function TopButtons({ setQuery }) {
+export default function TopButtons(props) {
   const cities = [
     {
       id: 1,
-      title: "London",
+      title: "karachi",
     },
     {
       id: 2,
-      title: "Sydney",
+      title: "hyderabad",
     },
     {
       id: 3,
-      title: "Tokyo",
+      title: "sukkur",
     },
     {
       id: 4,
-      title: "Toronto",
+      title: "islamabad",
     },
     {
       id: 5,
-      title: "Paris",
+      title: "haripur",
     },
   ];
+
+  // const handleOnClick =(cityname) =>
+  // {
+  //   props.setCityTitle(cityname)
+  //   console.log(cityname);
+    
+  // }
 
   return (
     <div className="flex items-center justify-around my-6">
@@ -30,7 +37,7 @@ export default function TopButtons({ setQuery }) {
         <button
           key={city.id}
           className="text-white text-lg font-medium"
-          onClick={() => setQuery({ q: city.title })}
+          
         >
           {city.title}
         </button>

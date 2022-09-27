@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { UilSearch, UilLocationPoint } from "@iconscout/react-unicons";
 
 export default function Inputs(props) {
   
+  
+  const handleOnchange = (event) => 
+   {
+    props.setCityTitle(event.target.value);
+  }
   return (
     <div className="flex flex-row justify-center my-6">
       <div className="flex flex-row w-3/4 items-center justify-center space-x-4 ">
         <input
+          onChange={handleOnchange}
           type="text"
           placeholder="Search for City...."
           className="text-xl font-light p-2 w-full shadow-xl focus:outline-none"
         ></input>
-        <UilSearch
-          size={25}
+        <UilSearch 
+          onClick = {props.updatenews}
           className="text-white cursor-pointer transition ease-out hover:scale-125"
         ></UilSearch>
         <UilLocationPoint
