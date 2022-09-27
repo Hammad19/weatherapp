@@ -29,12 +29,14 @@ export default function TopButtons(props) {
   //   props.setCityTitle(cityname)
   //   console.log(cityname);
     
+    
   // }
 
   return (
     <div className="flex items-center justify-around my-6">
       {cities.map((city) => (
         <button
+          onClick={console.log(city.title)}
           key={city.id}
           className="text-white text-lg font-medium"
           
