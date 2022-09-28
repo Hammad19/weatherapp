@@ -36,7 +36,7 @@ export default function TopButtons(props) {
     <div className="flex items-center justify-around my-6">
       {cities.map((city) => (
         <button
-          onClick={console.log(city.title)}
+          // onClick={console.log(city.title)}
           key={city.id}
           className="text-white text-lg font-medium"
           
